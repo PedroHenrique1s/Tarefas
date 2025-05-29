@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 
 import {
   PoMenuItem,
@@ -18,21 +19,16 @@ import {
     PoMenuModule,
     PoPageModule,
     HttpClientModule,
-  ],
+    RouterOutlet
+  ],  
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   readonly menus: Array<PoMenuItem> = [
-    { label: 'Cadastro de Tarefas', action: this.Cadastro.bind(this) },
-    { label: 'Cadastro de Usuário', action: this.Usuario.bind(this) },
+    { label: 'Cadastro de Tarefas', action: () => this.router.navigate(['/tarefas']) },
+    { label: 'Cadastro de Usuário', action: () => this.router.navigate(['/usuario']) },
   ];
 
-  private Cadastro() {
-    alert('Clicked in menu item');
-  }
-
-  private Usuario() {
-    alert('Clicked in menu item');
-  }
+  constructor(private router: Router) {}
 }
