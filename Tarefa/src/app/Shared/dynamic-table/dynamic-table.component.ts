@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { PoPageDynamicTableComponent, PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction, PoPageDynamicTableModule } from '@po-ui/ng-templates';
 import { IdynamicTable } from '../../Interface/idynamic-table';
 import { PoPageModule } from '@po-ui/ng-components';
@@ -8,9 +8,10 @@ import { PoPageModule } from '@po-ui/ng-components';
   standalone: true,
   imports: [PoPageDynamicTableModule, PoPageModule],
   templateUrl: './dynamic-table.component.html',
-  styleUrl: './dynamic-table.component.css'
+  styleUrl: './dynamic-table.component.css',
 })
-export class DynamicTableComponent {
+export class DynamicTableComponent implements OnChanges {
+
   @Input() dynamicTableConfig: IdynamicTable = {
     actionsRight: true,
     pageCustomActions: [],
@@ -18,26 +19,32 @@ export class DynamicTableComponent {
     fieldscolunasbrowse: [],
     quickSearchWidth: 3,
     height: 300,
-    serviceApi: null
-  }
-  public actionsRight:        boolean = true;
-  public pageCustomActions:   Array<PoPageDynamicTableCustomAction> = [];
-  public tableCustomActions:  Array<PoPageDynamicTableCustomTableAction> = [];
+    serviceApi: null,
+  };
+
+  public actionsRight: boolean = true;
+  public pageCustomActions: Array<PoPageDynamicTableCustomAction> = [];
+  public tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [];
   public fieldscolunasbrowse: Array<any> = [];
-  public quickSearchWidth:    number = 0;
-  public height:              number = 0;
-  public serviceApi:          string = "";
-  
-  @ViewChild('dynamicTable', { static: true }) dynamicTable: PoPageDynamicTableComponent | null = null;
+  public quickSearchWidth: number = 0;
+  public height: number = 0;
+  public serviceApi: any;
 
-  getDynamicTableConfig(){
-    this.pageCustomActions = this.dynamicTableConfig.pageCustomActions;
-    this.tableCustomActions = this.dynamicTableConfig.tableCustomActions;
-    this.fieldscolunasbrowse = this.dynamicTableConfig.fieldscolunasbrowse;
-    this.quickSearchWidth = this.dynamicTableConfig.quickSearchWidth;
-    this.height = this.dynamicTableConfig.height;
-    this.actionsRight = this.dynamicTableConfig.actionsRight;
-    this.serviceApi = this.dynamicTableConfig.serviceApi;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['dynamicTableConfig'] &&
+      changes['dynamicTableConfig'].currentValue
+    ) {
+      const config = this.dynamicTableConfig;
+      this.pageCustomActions = config.pageCustomActions;
+      this.tableCustomActions = config.tableCustomActions;
+      this.fieldscolunasbrowse = config.fieldscolunasbrowse;
+      this.quickSearchWidth = config.quickSearchWidth;
+      this.height = config.height;
+      this.actionsRight = config.actionsRight;
+      this.serviceApi = config.serviceApi;
+    }
   }
 
+  @ViewChild('dynamicTable', { static: true })dynamicTable: PoPageDynamicTableComponent | null = null;
 }
