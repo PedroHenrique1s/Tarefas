@@ -1,12 +1,20 @@
-import { RouterModule, Routes } from '@angular/router';
-import { TarefasComponent } from './Pages/tarefas/tarefas.component';
-import { UsuarioComponent } from './Pages/usuario/usuario.component';
-import { LoginComponent } from './Pages/login/login.component';
-// import { authGuard } from './Guards/auth.guard';
+import { Routes } from '@angular/router';
+import { LoginComponent } from './Components/login/login.component';
+import { TarefasComponent } from './Components/tarefas/tarefas.component';
+import { UsuariosComponent } from './Components/usuarios/usuarios.component';
+import { MenusComponent } from './Pages/menus/menus.component';
+import { authGuard } from './Guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full'},
-  { path: 'tarefas', component: TarefasComponent },
-  { path: 'usuario', component: UsuarioComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  {
+    path: '',
+    component: MenusComponent,
+    children: [
+      { path: 'tarefas', component: TarefasComponent, canActivate: [authGuard] },
+      { path: 'usuario', component: UsuariosComponent, canActivate: [authGuard] }
+    ]
+  },
+  { path: '**', redirectTo: 'login' }
 ];
