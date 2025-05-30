@@ -1,0 +1,13 @@
+<div class="po-wrapper">
+  <po-toolbar p-title="Tarefas"></po-toolbar>
+
+  <po-menu [p-menus]="menus" [p-filter]="true" [p-collapsed]="true"></po-menu>
+
+  <po-page-default>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </nav>
+  </po-page-default>
+</div>
