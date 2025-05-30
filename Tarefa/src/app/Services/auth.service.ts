@@ -4,16 +4,17 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
+  private authenticated = false;
+
   isAuthenticated(): boolean {
-    // Aqui pode usar localStorage, token, etc.
-    return !!localStorage.getItem('token');
+    return this.authenticated;
   }
 
-  login(token: string) {
-    localStorage.setItem('token', token);
+  login(): void {
+    this.authenticated = true;
   }
 
-  logout() {
-    localStorage.removeItem('token');
+  logout(): void {
+    this.authenticated = false;
   }
 }
