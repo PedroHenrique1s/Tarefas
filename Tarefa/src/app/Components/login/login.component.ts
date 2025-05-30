@@ -14,7 +14,7 @@ import { AuthService } from '../../Services/auth.service';
 export class LoginComponent {
   contactEmail:        string = "Informe seu e-mail valido ao sistema";
   productName:         string = "Gerenciador de Tarefas";
-  background:          string = "";
+  background:          string = "assets/img.png"
   login:               string = "";
   literals:            string = "";
   loginPattern:        string = "";
