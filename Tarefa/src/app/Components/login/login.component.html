@@ -1,0 +1,14 @@
+@if (!showPageBlocked) {
+    <po-page-login
+      [p-background]="background"
+      [p-contact-email]="contactEmail"
+      [p-exceeded-attempts-warning]="exceededAttempts"
+      [p-hide-remember-user]="true"
+      [p-loading]="loading"
+      [p-login]="login"
+      [p-login-errors]="loginErrors"
+      [p-password-errors]="passwordErrors"
+      [p-product-name]="productName"
+      (p-login-submit)="loginSubmit($event)"
+    ></po-page-login>
+}
