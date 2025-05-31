@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from '@po-ui/ng-templates';
 import { NOpcEnum } from '../Interface/enum';
+import { PoModalComponent } from '@po-ui/ng-components';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,11 @@ export class TarefasService {
   public isDataLoaded: boolean = false;
   public resetForm: boolean = false;
 
-  pagaCustomAction(): Array<PoPageDynamicTableCustomAction> {
+  pagaCustomAction(onIncluirCallback: () => void): Array<PoPageDynamicTableCustomAction> {
     return [
       {
         label: 'Incluir',
-        action: this.onIncluir.bind(this),
+        action: onIncluirCallback,
         icon: 'an an-eye-closed'
       }
     ];
@@ -68,9 +69,10 @@ export class TarefasService {
     { value: 1, label: 'Concluído' }
   ];
 
-  private onIncluir(): void {
+  public onIncluir(poModal: PoModalComponent): void {
     this.currentNOpc = NOpcEnum.Incluir;
     this.isDataLoaded = true;
     this.resetForm = true;
+    poModal.open();
   }
 }
