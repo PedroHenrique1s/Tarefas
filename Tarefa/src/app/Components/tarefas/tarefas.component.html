@@ -1,3 +1,16 @@
 <app-dynamic-table [dynamicTableConfig]="DynamicTableConfig"></app-dynamic-table>
 
-<po-modal #poModal p-title="PO Tarefas"> PO Tarefas!!! </po-modal>
+<po-modal #poModal p-title="Inclua sua tarefa">
+  <po-dynamic-form
+    #dynamicForm
+    p-auto-focus="name"
+    [p-fields]="fields"
+  >
+  </po-dynamic-form>
+
+  <po-modal-footer [p-disabled-align]="false">
+    <po-button   p-label="Fechar" (p-click)="closeModal()" p-danger="true"> </po-button>
+    <po-button   p-label="Limpar" (p-click)="restore()"> </po-button>
+    <po-button   p-label="Salvar" (p-click)="confirmTask()" p-kind="primary"> </po-button>
+  </po-modal-footer>
+</po-modal>

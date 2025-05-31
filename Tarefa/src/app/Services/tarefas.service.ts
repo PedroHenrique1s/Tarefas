@@ -4,35 +4,79 @@ import { NOpcEnum } from '../Interface/enum';
 import { PoModalComponent } from '@po-ui/ng-components';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TarefasService {
-
-  constructor() { }
+  constructor() {}
 
   public currentNOpc: NOpcEnum = NOpcEnum.Visualizar;
   public isDataLoaded: boolean = false;
   public resetForm: boolean = false;
 
-  pagaCustomAction(onIncluirCallback: () => void): Array<PoPageDynamicTableCustomAction> {
+  pagaCustomAction(
+    onIncluirCallback: () => void
+  ): Array<PoPageDynamicTableCustomAction> {
     return [
       {
         label: 'Incluir',
         action: onIncluirCallback,
-        icon: 'an an-eye-closed'
-      }
+        icon: 'an an-eye-closed',
+      },
     ];
   }
 
   fieldscolunasbrowse(): Array<any> {
     return [
-      { property: 'idTarefa', label: 'ID Tarefa', width: '100px', filter: true, gridColumns: 4 },
-      { property: 'status', label: 'Status', width: '150px', options: this.statusOptions ,filter: true, gridColumns: 4 },
-      { property: 'descricao', label: 'Descrição', width: '300px', filter: true, gridColumns: 12 }
+      {
+        property: 'idTarefa',
+        label: 'ID Tarefa',
+        width: '100px',
+        filter: true,
+        gridColumns: 4,
+      },
+      {
+        property: 'status',
+        label: 'Status',
+        width: '150px',
+        options: this.statusOptions,
+        filter: true,
+        gridColumns: 4,
+      },
+      {
+        property: 'descricao',
+        label: 'Descrição',
+        width: '300px',
+        filter: true,
+        gridColumns: 12,
+        rows: 5,
+        placeholder: 'Digite sua descrição',
+      },
     ];
   }
 
-  tableCustomActions(): Array<PoPageDynamicTableCustomTableAction>{
+  fieldsdynamic(): Array<any> {
+    return [
+      {
+        property: 'status',
+        label: 'Status',
+        width: '150px',
+        options: this.statusOptions,
+        filter: true,
+        gridColumns: 4,
+      },
+      {
+        property: 'descricao',
+        label: 'Descrição',
+        width: '300px',
+        filter: true,
+        gridColumns: 12,
+        rows: 5,
+        placeholder: 'Digite sua descrição',
+      },
+    ];
+  }
+
+  tableCustomActions(): Array<PoPageDynamicTableCustomTableAction> {
     return [
       {
         label: 'Visualizar',
@@ -41,7 +85,7 @@ export class TarefasService {
           this.isDataLoaded = true;
           this.resetForm = false;
         },
-        icon: 'an an-eye-closed'
+        icon: 'an an-eye-closed',
       },
       {
         label: 'Alterar',
@@ -50,7 +94,7 @@ export class TarefasService {
           this.isDataLoaded = true;
           this.resetForm = false;
         },
-        icon: 'an an-edit'
+        icon: 'an an-edit',
       },
       {
         label: 'Deletar',
@@ -59,14 +103,14 @@ export class TarefasService {
           this.isDataLoaded = true;
           this.resetForm = false;
         },
-        icon: 'an an-trash'
-      }
+        icon: 'an an-trash',
+      },
     ];
   }
 
   readonly statusOptions: Array<object> = [
     { value: 0, label: 'Pendente' },
-    { value: 1, label: 'Concluído' }
+    { value: 1, label: 'Concluído' },
   ];
 
   public onIncluir(poModal: PoModalComponent): void {

@@ -3,18 +3,33 @@ import { DynamicTableComponent } from '../../Shared/dynamic-table/dynamic-table.
 import { TarefasService } from '../../Services/tarefas.service';
 import { Subscription } from 'rxjs';
 import { IdynamicTable } from '../../Interface/idynamic-table';
-import { PoModalComponent, PoModalModule } from '@po-ui/ng-components';
+import {
+  PoModalComponent,
+  PoModalModule,
+  PoDynamicModule,
+  PoDynamicFormField,
+  PoButtonModule,
+  PoDynamicFormComponent,
+} from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-tarefas',
   standalone: true,
-  imports: [DynamicTableComponent, PoModalModule],
+  imports: [
+    DynamicTableComponent,
+    PoModalModule,
+    PoDynamicModule,
+    PoButtonModule,
+  ],
   templateUrl: './tarefas.component.html',
   styleUrl: './tarefas.component.css',
 })
 export class TarefasComponent implements OnInit {
   @ViewChild(PoModalComponent, { static: true }) poModal!: PoModalComponent;
+  @ViewChild(PoDynamicFormComponent, { static: true })
+  poComponet!: PoDynamicFormComponent;
 
+  public fields: Array<PoDynamicFormField> = [];
   public DynamicTableConfig: IdynamicTable = {
     title: '',
     actionsRight: true,
@@ -35,19 +50,34 @@ export class TarefasComponent implements OnInit {
   constructor(private _tarefasService: TarefasService) {}
 
   GetConfigDynamicTable() {
-    this.DynamicTableConfig.title               = 'Tarefas';
-    this.DynamicTableConfig.actionsRight        = true;
-    this.DynamicTableConfig.quickSearchWidth    = 3;
-    this.DynamicTableConfig.height              = 300;
-    this.DynamicTableConfig.fieldscolunasbrowse = this._tarefasService.fieldscolunasbrowse();
-    this.DynamicTableConfig.serviceApi          = this._tarefasService;
-    this.DynamicTableConfig.tableCustomActions  = this._tarefasService.tableCustomActions();
-    this.DynamicTableConfig.pageCustomActions   = this._tarefasService.pagaCustomAction(() => {
-      this.onIncluir();
-    });
+    this.DynamicTableConfig.title = 'Tarefas';
+    this.DynamicTableConfig.actionsRight = true;
+    this.DynamicTableConfig.quickSearchWidth = 3;
+    this.DynamicTableConfig.height = 300;
+    this.DynamicTableConfig.fieldscolunasbrowse =
+      this._tarefasService.fieldscolunasbrowse();
+    this.DynamicTableConfig.serviceApi = this._tarefasService;
+    this.DynamicTableConfig.tableCustomActions =
+      this._tarefasService.tableCustomActions();
+    this.DynamicTableConfig.pageCustomActions =
+      this._tarefasService.pagaCustomAction(() => {
+        this.onIncluir();
+      });
   }
 
   onIncluir() {
+    this.fields = this._tarefasService.fieldsdynamic();
     this._tarefasService.onIncluir(this.poModal);
+  }
+
+  closeModal() {
+    this.poComponet.form.reset();
+    this.poModal.close();
+  }
+
+  confirmTask() {}
+
+  restore() {
+    this.poComponet.form.reset();
   }
 }
