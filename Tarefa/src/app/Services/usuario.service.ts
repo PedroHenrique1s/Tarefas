@@ -25,9 +25,9 @@ export class UsuarioService {
 
   fieldscolunasbrowse(): Array<any> {
     return [
-      { property: 'idTarefa', label: 'ID Tarefa', width: '100px', filter: true, gridColumns: 4 },
-      { property: 'status', label: 'Status', width: '150px', options: this.statusOptions ,filter: true, gridColumns: 4 },
-      { property: 'descricao', label: 'Descrição', width: '300px', filter: true, gridColumns: 12 }
+      { property: 'idUsuario', label: 'ID Usuario', width: '100px', filter: true, gridColumns: 4 },
+      { property: 'email', label: 'Email', width: '150px' ,filter: true, gridColumns: 4 },
+      { property: 'senha', label: 'Senha', width: '150px', filter: true, gridColumns: 12 }
     ];
   }
 
@@ -62,11 +62,6 @@ export class UsuarioService {
       }
     ];
   }
-
-  readonly statusOptions: Array<object> = [
-    { value: 0, label: 'Pendente' },
-    { value: 1, label: 'Concluído' }
-  ];
 
   private onIncluir(): void {
     this.currentNOpc = NOpcEnum.Incluir;
