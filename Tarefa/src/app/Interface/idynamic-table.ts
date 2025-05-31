@@ -1,6 +1,7 @@
 import { PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from "@po-ui/ng-templates";
 
 export interface IdynamicTable {
+    title: string;
     actionsRight: boolean;
     pageCustomActions: Array<PoPageDynamicTableCustomAction>
     tableCustomActions: Array<PoPageDynamicTableCustomTableAction>
