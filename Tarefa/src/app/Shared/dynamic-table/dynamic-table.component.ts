@@ -13,6 +13,7 @@ import { PoPageModule } from '@po-ui/ng-components';
 export class DynamicTableComponent implements OnChanges {
 
   @Input() dynamicTableConfig: IdynamicTable = {
+    title: '',
     actionsRight: true,
     pageCustomActions: [],
     tableCustomActions: [],
@@ -22,6 +23,7 @@ export class DynamicTableComponent implements OnChanges {
     serviceApi: null,
   };
 
+  public title: string = '';
   public actionsRight: boolean = true;
   public pageCustomActions: Array<PoPageDynamicTableCustomAction> = [];
   public tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [];
@@ -36,6 +38,7 @@ export class DynamicTableComponent implements OnChanges {
       changes['dynamicTableConfig'].currentValue
     ) {
       const config = this.dynamicTableConfig;
+      this.title = config.title;
       this.pageCustomActions = config.pageCustomActions;
       this.tableCustomActions = config.tableCustomActions;
       this.fieldscolunasbrowse = config.fieldscolunasbrowse;
