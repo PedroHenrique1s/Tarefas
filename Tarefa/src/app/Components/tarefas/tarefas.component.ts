@@ -14,6 +14,7 @@ import { IdynamicTable } from '../../Interface/idynamic-table';
 export class TarefasComponent implements OnInit {
 
   public DynamicTableConfig: IdynamicTable =  {
+    title: '',
     actionsRight: true,
     pageCustomActions: [],
     tableCustomActions: [],
@@ -32,6 +33,7 @@ export class TarefasComponent implements OnInit {
   constructor( private _tarefasService:TarefasService){}
 
   GetConfigDynamicTable() {
+    this.DynamicTableConfig.title = 'Tarefas';
     this.DynamicTableConfig.actionsRight = true;
     this.DynamicTableConfig.quickSearchWidth = 3;
     this.DynamicTableConfig.height = 300;

@@ -13,6 +13,7 @@ import { DynamicTableComponent } from '../../Shared/dynamic-table/dynamic-table.
 })
 export class UsuariosComponent {
   public DynamicTableConfig: IdynamicTable = {
+    title: '',
     actionsRight: true,
     pageCustomActions: [],
     tableCustomActions: [],
@@ -31,15 +32,16 @@ export class UsuariosComponent {
   constructor(private _tarefasService: TarefasService) {}
 
   GetConfigDynamicTable() {
+    this.DynamicTableConfig.title = 'Usuários';
     this.DynamicTableConfig.actionsRight = true;
     this.DynamicTableConfig.quickSearchWidth = 3;
     this.DynamicTableConfig.height = 300;
     this.DynamicTableConfig.pageCustomActions =
-      this._tarefasService.pagaCustomAction();
+    this._tarefasService.pagaCustomAction();
     this.DynamicTableConfig.fieldscolunasbrowse =
-      this._tarefasService.fieldscolunasbrowse();
+    this._tarefasService.fieldscolunasbrowse();
     this.DynamicTableConfig.serviceApi = this._tarefasService;
     this.DynamicTableConfig.tableCustomActions =
-      this._tarefasService.tableCustomActions();
+    this._tarefasService.tableCustomActions();
   }
 }
