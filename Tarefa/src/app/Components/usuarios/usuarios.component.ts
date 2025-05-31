@@ -4,6 +4,7 @@ import { TarefasService } from '../../Services/tarefas.service';
 import { Subscription } from 'rxjs';
 import { DynamicTableComponent } from '../../Shared/dynamic-table/dynamic-table.component';
 import { PoModalComponent, PoModalModule } from '@po-ui/ng-components';
+import { UsuarioService } from '../../Services/usuario.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -32,22 +33,22 @@ export class UsuariosComponent {
     this.GetConfigDynamicTable();
   }
 
-  constructor(private _tarefasService: TarefasService) {}
+  constructor(private _usuarioService: UsuarioService) {}
 
   GetConfigDynamicTable() {
     this.DynamicTableConfig.title               = 'Usuários';
     this.DynamicTableConfig.actionsRight        = true;
     this.DynamicTableConfig.quickSearchWidth    = 3;
     this.DynamicTableConfig.height              = 300;
-    this.DynamicTableConfig.fieldscolunasbrowse = this._tarefasService.fieldscolunasbrowse();
-    this.DynamicTableConfig.serviceApi          = this._tarefasService;
-    this.DynamicTableConfig.tableCustomActions  = this._tarefasService.tableCustomActions();
-    this.DynamicTableConfig.pageCustomActions   = this._tarefasService.pagaCustomAction(() => {
+    this.DynamicTableConfig.fieldscolunasbrowse = this._usuarioService.fieldscolunasbrowse();
+    this.DynamicTableConfig.serviceApi          = this._usuarioService;
+    this.DynamicTableConfig.tableCustomActions  = this._usuarioService.tableCustomActions();
+    this.DynamicTableConfig.pageCustomActions   = this._usuarioService.pagaCustomAction(() => {
       this.onIncluir();
     });
   }
 
   onIncluir() {
-    this._tarefasService.onIncluir(this.poModal);
+    this._usuarioService.onIncluir(this.poModal);
   }
 }

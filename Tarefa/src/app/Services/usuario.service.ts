@@ -1,37 +1,55 @@
 import { Injectable } from '@angular/core';
 import { NOpcEnum } from '../Interface/enum';
 import { PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from '@po-ui/ng-templates';
+import { PoModalComponent } from '@po-ui/ng-components';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuarioService {
-
-  constructor() { }
+  constructor() {}
 
   public currentNOpc: NOpcEnum = NOpcEnum.Visualizar;
   public isDataLoaded: boolean = false;
   public resetForm: boolean = false;
 
-  pagaCustomAction(): Array<PoPageDynamicTableCustomAction> {
+  pagaCustomAction(onIncluirCallback: () => void): Array<PoPageDynamicTableCustomAction> {
     return [
       {
         label: 'Incluir',
-        action: this.onIncluir.bind(this),
-        icon: 'an an-eye-closed'
-      }
+        action: onIncluirCallback,
+        icon: 'an an-eye-closed',
+      },
     ];
   }
 
   fieldscolunasbrowse(): Array<any> {
     return [
-      { property: 'idUsuario', label: 'ID Usuario', width: '100px', filter: true, gridColumns: 4 },
-      { property: 'email', label: 'Email', width: '150px' ,filter: true, gridColumns: 4 },
-      { property: 'senha', label: 'Senha', width: '150px', filter: true, gridColumns: 12 }
+      {
+        property: 'idUsuario',
+        label: 'ID Usuario',
+        width: '100px',
+        filter: true,
+        gridColumns: 4,
+      },
+      {
+        property: 'email',
+        label: 'Email',
+        width: '150px',
+        filter: true,
+        gridColumns: 4,
+      },
+      {
+        property: 'senha',
+        label: 'Senha',
+        width: '150px',
+        filter: true,
+        gridColumns: 12,
+      },
     ];
   }
 
-  tableCustomActions(): Array<PoPageDynamicTableCustomTableAction>{
+  tableCustomActions(): Array<PoPageDynamicTableCustomTableAction> {
     return [
       {
         label: 'Visualizar',
@@ -40,7 +58,7 @@ export class UsuarioService {
           this.isDataLoaded = true;
           this.resetForm = false;
         },
-        icon: 'an an-eye-closed'
+        icon: 'an an-eye-closed',
       },
       {
         label: 'Alterar',
@@ -49,7 +67,7 @@ export class UsuarioService {
           this.isDataLoaded = true;
           this.resetForm = false;
         },
-        icon: 'an an-edit'
+        icon: 'an an-edit',
       },
       {
         label: 'Deletar',
@@ -58,14 +76,15 @@ export class UsuarioService {
           this.isDataLoaded = true;
           this.resetForm = false;
         },
-        icon: 'an an-trash'
-      }
+        icon: 'an an-trash',
+      },
     ];
   }
 
-  private onIncluir(): void {
+  public onIncluir(poModal: PoModalComponent): void {
     this.currentNOpc = NOpcEnum.Incluir;
     this.isDataLoaded = true;
     this.resetForm = true;
+    poModal.open();
   }
 }
