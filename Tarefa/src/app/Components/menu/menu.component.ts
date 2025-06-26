@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { PoMenuItem, PoMenuModule, PoPageModule, PoToolbarModule } from '@po-ui/ng-components';
+import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -13,17 +14,28 @@ import { PoMenuItem, PoMenuModule, PoPageModule, PoToolbarModule } from '@po-ui/
     PoMenuModule,
     PoPageModule,
     HttpClientModule,
-    RouterOutlet
+    RouterOutlet,
   ],
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.css'
+  styleUrl: './menu.component.css',
 })
 export class MenuComponent {
-    constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
-    readonly menus: Array<PoMenuItem> = [
-      { label: 'Cadastro de Tarefas', action: () => this.router.navigate(['/tarefas']) },
-      { label: 'Cadastro de Usuário', action: () => this.router.navigate(['/usuario']) },
-      { label: 'Sair', action: () => this.router.navigate(['/login']) },
-    ];
+  readonly menus: Array<PoMenuItem> = [
+    {
+      label: 'Cadastro de Tarefas',
+      action: () => this.router.navigate(['/tarefas']),
+    },
+    {
+      label: 'Cadastro de Usuário',
+      action: () => this.router.navigate(['/usuario']),
+    },
+    { label: 'Sair', action: () => this.close() },
+  ];
+
+  private close() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }
