@@ -2,12 +2,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5161/login';
+  private apiUrl = environment.apiUrl;
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
@@ -24,7 +25,8 @@ export class AuthService {
   }
 
   // **Este é o seu novo método de login que fará a requisição HTTP**
-  login(email: string, password: string ): Observable<any> {
+  login(email: string, password: string): Observable<any> {
+    this.apiUrl = `${this.apiUrl}/login`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', // Indica que estamos enviando JSON
@@ -33,8 +35,8 @@ export class AuthService {
 
     let payload = {
       email: email,
-      senha:password
-    }
+      senha: password,
+    };
 
     return this.http.post<any>(this.apiUrl, payload, httpOptions).pipe(
       map((user) => {
@@ -47,6 +49,28 @@ export class AuthService {
           this.currentUserSubject.next(user);
         }
         return user; // Retorna o objeto do usuário (ou apenas o token, dependendo do que sua API retorna)
+      })
+    );
+  }
+
+  refreshToken(): Observable<any> {
+    const refreshToken = this.currentUserValue?.refreshToken;
+    this.apiUrl = `${this.apiUrl}/refresh-token`;
+
+    if (!refreshToken)
+      return new Observable((observer) => observer.error('No refresh token'));
+
+    return this.http.post<any>(this.apiUrl, { refreshToken }).pipe(
+      map((newTokens) => {
+        const currentUser = this.currentUserValue;
+        const updatedUser = {
+          ...currentUser,
+          token: newTokens.token,
+          refreshToken: newTokens.refreshToken,
+        };
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        this.currentUserSubject.next(updatedUser);
+        return updatedUser;
       })
     );
   }
