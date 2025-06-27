@@ -36,6 +36,5 @@ export class MenuComponent {
 
   private close() {
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }
