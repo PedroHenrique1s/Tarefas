@@ -28,25 +28,24 @@ export class TarefasService {
   fieldscolunasbrowse(): Array<any> {
     return [
       {
-        property: 'idTarefa',
-        label: 'ID Tarefa',
-        width: '100px',
-        filter: true,
-        gridColumns: 4,
-      },
-      {
         property: 'status',
         label: 'Status',
         width: '150px',
         options: this.statusOptions,
         filter: true,
-        gridColumns: 4,
+        gridColumns: 6,
+      },
+      {
+        property: 'id',
+        label: 'ID Tarefa',
+        width: '100px',
+        filter: true,
+        gridColumns: 6,
       },
       {
         property: 'descricao',
         label: 'Descrição',
         width: '300px',
-        filter: true,
         gridColumns: 12,
         rows: 5,
         placeholder: 'Digite sua descrição',
@@ -62,7 +61,7 @@ export class TarefasService {
         width: '150px',
         options: this.statusOptions,
         filter: true,
-        gridColumns: 4,
+        gridColumns: 12,
       },
       {
         property: 'descricao',
