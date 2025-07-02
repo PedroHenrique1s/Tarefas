@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DynamicTableComponent } from '../../Shared/dynamic-table/dynamic-table.component';
 import { TarefasService } from '../../Services/tarefas.service';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { IdynamicTable } from '../../Interface/idynamic-table';
 import {
   PoModalComponent,
@@ -11,6 +11,7 @@ import {
   PoButtonModule,
   PoDynamicFormComponent,
 } from '@po-ui/ng-components';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-tarefas',
@@ -56,7 +57,7 @@ export class TarefasComponent implements OnInit {
     this.DynamicTableConfig.height = 300;
     this.DynamicTableConfig.fieldscolunasbrowse =
       this._tarefasService.fieldscolunasbrowse();
-    this.DynamicTableConfig.serviceApi = this._tarefasService;
+    this.DynamicTableConfig.serviceApi = `${environment.apiUrl}/tarefas`;;
     this.DynamicTableConfig.tableCustomActions =
       this._tarefasService.tableCustomActions();
     this.DynamicTableConfig.pageCustomActions =
