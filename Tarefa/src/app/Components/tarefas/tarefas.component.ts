@@ -48,7 +48,7 @@ export class TarefasComponent implements OnInit {
     this.GetConfigDynamicTable();
   }
 
-  constructor(private _tarefasService: TarefasService) {}
+  constructor(protected _tarefasService: TarefasService) {}
 
   GetConfigDynamicTable() {
     this.DynamicTableConfig.title = 'Tarefas';
@@ -57,18 +57,38 @@ export class TarefasComponent implements OnInit {
     this.DynamicTableConfig.height = 300;
     this.DynamicTableConfig.fieldscolunasbrowse =
       this._tarefasService.fieldscolunasbrowse();
-    this.DynamicTableConfig.serviceApi = `${environment.apiUrl}/tarefas`;;
-    this.DynamicTableConfig.tableCustomActions =
-      this._tarefasService.tableCustomActions();
+    this.DynamicTableConfig.serviceApi = `${environment.apiUrl}/tarefas`;
+
+    // 👇 Aqui você usa ações locais, chamando os métodos deste componente
+    this.DynamicTableConfig.tableCustomActions = [
+      {
+        label: 'Visualizar',
+        action: (row: any) => this.onVisualizar(row),
+        icon: 'po-icon-eye',
+      },
+      {
+        label: 'Alterar',
+        action: (row: any) => this.onAlterar(row),
+        icon: 'po-icon-edit',
+      },
+      {
+        label: 'Deletar',
+        action: (row: any) => this.onDeletar(row),
+        icon: 'po-icon-delete',
+      },
+    ];
+
     this.DynamicTableConfig.pageCustomActions =
       this._tarefasService.pagaCustomAction(() => {
         this.onIncluir();
       });
   }
 
-  onIncluir() {
+  onIncluir(): void {
     this.fields = this._tarefasService.fieldsdynamic();
-    this._tarefasService.onIncluir(this.poModal);
+    this._tarefasService.currentNOpc = 3; // Incluir
+    this._tarefasService.formData = {}; // Limpa o formulário
+    this.poModal.open();
   }
 
   closeModal() {
@@ -80,5 +100,26 @@ export class TarefasComponent implements OnInit {
 
   restore() {
     this.poComponet.form.reset();
+  }
+
+  onVisualizar(tarefa: any): void {
+    this.fields = this._tarefasService.fieldsdynamic();
+    this._tarefasService.currentNOpc = 2; // Visualizar
+    this._tarefasService.formData = { ...tarefa };
+    this.poModal.open();
+  }
+
+  onAlterar(tarefa: any): void {
+    this.fields = this._tarefasService.fieldsdynamic();
+    this._tarefasService.currentNOpc = 4; // Alterar
+    this._tarefasService.formData = { ...tarefa };
+    this.poModal.open();
+  }
+
+  onDeletar(tarefa: any): void {
+    this.fields = this._tarefasService.fieldsdynamic();
+    this._tarefasService.currentNOpc = 5; // Deletar
+    this._tarefasService.formData = { ...tarefa };
+    this.poModal.open();
   }
 }

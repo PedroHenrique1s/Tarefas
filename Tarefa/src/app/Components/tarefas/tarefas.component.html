@@ -1,10 +1,11 @@
 <app-dynamic-table [dynamicTableConfig]="DynamicTableConfig"></app-dynamic-table>
 
-<po-modal #poModal p-title="Inclua sua tarefa">
+<po-modal #poModal p-title="Inclua sua tarefa" [p-hide-close]="true">
   <po-dynamic-form
     #dynamicForm
     p-auto-focus="name"
     [p-fields]="fields"
+    [p-value]="_tarefasService.formData"
   >
   </po-dynamic-form>
 
