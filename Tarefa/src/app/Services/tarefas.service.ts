@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from '@po-ui/ng-templates';
+import { PoPageDynamicTableCustomAction } from '@po-ui/ng-templates';
 import { NOpcEnum } from '../Interface/enum';
 import { PoModalComponent } from '@po-ui/ng-components';
 
@@ -12,26 +12,26 @@ export class TarefasService {
   public currentNOpc: NOpcEnum = NOpcEnum.Visualizar;
   public isDataLoaded: boolean = false;
   public resetForm: boolean = false;
+  public formData: any = {};
 
-  pagaCustomAction(
-    onIncluirCallback: () => void
-  ): Array<PoPageDynamicTableCustomAction> {
+  // Ação do botão "Incluir"
+  pagaCustomAction(onIncluirCallback: () => void): Array<PoPageDynamicTableCustomAction> {
     return [
       {
         label: 'Incluir',
         action: onIncluirCallback,
-        icon: 'an an-eye-closed',
+        icon: 'po-icon-plus',
       },
     ];
   }
 
+  // Campos da tabela
   fieldscolunasbrowse(): Array<any> {
     return [
       {
         property: 'status',
         label: 'Status',
         width: '150px',
-        options: this.statusOptions,
         filter: true,
         gridColumns: 6,
       },
@@ -53,15 +53,16 @@ export class TarefasService {
     ];
   }
 
+  // Campos do formulário dinâmico
   fieldsdynamic(): Array<any> {
     return [
       {
         property: 'status',
         label: 'Status',
         width: '150px',
-        options: this.statusOptions,
         filter: true,
         gridColumns: 12,
+        options: this.statusOptions,
       },
       {
         property: 'descricao',
@@ -75,47 +76,9 @@ export class TarefasService {
     ];
   }
 
-  tableCustomActions(): Array<PoPageDynamicTableCustomTableAction> {
-    return [
-      {
-        label: 'Visualizar',
-        action: (row: any) => {
-          this.currentNOpc = NOpcEnum.Visualizar;
-          this.isDataLoaded = true;
-          this.resetForm = false;
-        },
-        icon: 'an an-eye-closed',
-      },
-      {
-        label: 'Alterar',
-        action: (row: any) => {
-          this.currentNOpc = NOpcEnum.Alterar;
-          this.isDataLoaded = true;
-          this.resetForm = false;
-        },
-        icon: 'an an-edit',
-      },
-      {
-        label: 'Deletar',
-        action: (row: any) => {
-          this.currentNOpc = NOpcEnum.Deletar;
-          this.isDataLoaded = true;
-          this.resetForm = false;
-        },
-        icon: 'an an-trash',
-      },
-    ];
-  }
-
   readonly statusOptions: Array<object> = [
-    { value: 0, label: 'Pendente' },
-    { value: 1, label: 'Concluído' },
+    { value: 0, label: 'Pendente', color: 'danger' },
+    { value: 1, label: 'Concluído', color: 'success' },
   ];
 
-  public onIncluir(poModal: PoModalComponent): void {
-    this.currentNOpc = NOpcEnum.Incluir;
-    this.isDataLoaded = true;
-    this.resetForm = true;
-    poModal.open();
-  }
 }
