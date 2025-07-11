@@ -10,6 +10,7 @@ import {
   PoDynamicFormField,
   PoButtonModule,
   PoDynamicFormComponent,
+  PoNotificationService,
 } from '@po-ui/ng-components';
 import { environment } from '../../../environments/environment';
 
@@ -26,6 +27,7 @@ import { environment } from '../../../environments/environment';
   styleUrl: './tarefas.component.css',
 })
 export class TarefasComponent implements OnInit {
+  @ViewChild(DynamicTableComponent) dynamicTableRef!: DynamicTableComponent;
   @ViewChild(PoModalComponent, { static: true }) poModal!: PoModalComponent;
   @ViewChild(PoDynamicFormComponent, { static: true })
   poComponet!: PoDynamicFormComponent;
@@ -48,13 +50,16 @@ export class TarefasComponent implements OnInit {
     this.GetConfigDynamicTable();
   }
 
-  constructor(protected _tarefasService: TarefasService) {}
+  constructor(
+    protected _tarefasService: TarefasService,
+    private _poNotification: PoNotificationService
+  ) {}
 
   GetConfigDynamicTable() {
     this.DynamicTableConfig.title = 'Tarefas';
     this.DynamicTableConfig.actionsRight = true;
     this.DynamicTableConfig.quickSearchWidth = 3;
-    this.DynamicTableConfig.height = 300;
+    this.DynamicTableConfig.height = 500;
     this.DynamicTableConfig.fieldscolunasbrowse =
       this._tarefasService.fieldscolunasbrowse();
     this.DynamicTableConfig.serviceApi = `${environment.apiUrl}/tarefas`;
@@ -96,7 +101,44 @@ export class TarefasComponent implements OnInit {
     this.poModal.close();
   }
 
-  confirmTask() {}
+  confirmTask() {
+    const formData = this.poComponet.form.value;
+
+    const currentUserString = localStorage.getItem('currentUser');
+    if (!currentUserString) {
+      this._poNotification.error('Usuário não autenticado.');
+      return;
+    }
+
+    const currentUser = JSON.parse(currentUserString);
+    const userId = currentUser.user?.id;
+
+    if (!userId) {
+      this._poNotification.error('ID do usuário não encontrado.');
+      return;
+    }
+
+    // Payload compatível com o backend
+    const payload = {
+      Descricao: formData.descricao,
+      Status: formData.status,
+      UsuarioId: userId,
+    };
+
+    if (this._tarefasService.currentNOpc === 3) {
+      this._tarefasService.incluirTarefa(payload).subscribe({
+        next: (res) => {
+          this._poNotification.success('Tarefa incluída com sucesso!');
+          this.closeModal();
+          this.dynamicTableRef.reloadTable();
+        },
+        error: (err) => {
+          this._poNotification.error('Erro ao incluir tarefa.');
+          console.error(err);
+        },
+      });
+    }
+  }
 
   restore() {
     this.poComponet.form.reset();
