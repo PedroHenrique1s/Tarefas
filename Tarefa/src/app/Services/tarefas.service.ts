@@ -135,4 +135,29 @@ export class TarefasService {
 
     return this._http.delete(`${environment.apiUrl}/tarefas/${id}`,httpOptions);
   }
+
+  alterarTarefa(id:string, tarefa: any): Observable<any> {
+    const currentUserString = localStorage.getItem('currentUser');
+    if (!currentUserString) {
+      console.error('Usuário não autenticado. Token não encontrado.');
+      return of(null); // Retorna um observable nulo
+    }
+
+    const currentUser = JSON.parse(currentUserString);
+    const token = currentUser.token;
+
+    if (!token) {
+      console.error('Token não encontrado no objeto do usuário.');
+      return of(null);
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      }),
+    };
+
+    return this._http.put(`${environment.apiUrl}/tarefas/${id}`, tarefa, httpOptions);
+  }
 }
