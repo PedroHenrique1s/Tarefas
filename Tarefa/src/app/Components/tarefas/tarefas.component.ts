@@ -159,9 +159,16 @@ export class TarefasComponent implements OnInit {
   }
 
   onDeletar(tarefa: any): void {
-    this.fields = this._tarefasService.fieldsdynamic();
-    this._tarefasService.currentNOpc = 5; // Deletar
-    this._tarefasService.formData = { ...tarefa };
-    this.poModal.open();
+    this._tarefasService.deletarTarefa(tarefa.id).subscribe({
+      next: () => {
+        this._poNotification.success('Tarefa deletada com sucesso!');
+        this.dynamicTableRef.reloadTable();
+      },
+      error: (err: any) => {
+        this._poNotification.error('Erro ao deletar tarefa.');
+        console.error(err);
+      },
+    })
   }
+
 }

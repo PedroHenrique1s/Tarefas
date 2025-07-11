@@ -108,6 +108,38 @@ export class TarefasService {
     };
     const payload = tarefaData;
 
-    return this._http.post<any>(`${environment.apiUrl}/tarefas`,payload,httpOptions);
+    return this._http.post<any>(
+      `${environment.apiUrl}/tarefas`,
+      payload,
+      httpOptions
+    );
+  }
+
+  deletarTarefa(id: string): Observable<any> {
+    const currentUserString = localStorage.getItem('currentUser');
+    if (!currentUserString) {
+      console.error('Usuário não autenticado. Token não encontrado.');
+      return of(null); // Retorna um observable nulo
+    }
+
+    const currentUser = JSON.parse(currentUserString);
+    const token = currentUser.token;
+
+    if (!token) {
+      console.error('Token não encontrado no objeto do usuário.');
+      return of(null);
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      }),
+    };
+
+    return this._http.delete(
+      `${environment.apiUrl}/tarefas/${id}`,
+      httpOptions
+    );
   }
 }
