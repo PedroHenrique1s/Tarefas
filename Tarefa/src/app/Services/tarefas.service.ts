@@ -108,11 +108,7 @@ export class TarefasService {
     };
     const payload = tarefaData;
 
-    return this._http.post<any>(
-      `${environment.apiUrl}/tarefas`,
-      payload,
-      httpOptions
-    );
+    return this._http.post<any>(`${environment.apiUrl}/tarefas`,payload,httpOptions);
   }
 
   deletarTarefa(id: string): Observable<any> {
@@ -137,9 +133,6 @@ export class TarefasService {
       }),
     };
 
-    return this._http.delete(
-      `${environment.apiUrl}/tarefas/${id}`,
-      httpOptions
-    );
+    return this._http.delete(`${environment.apiUrl}/tarefas/${id}`,httpOptions);
   }
 }
