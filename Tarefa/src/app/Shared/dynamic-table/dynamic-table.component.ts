@@ -11,6 +11,7 @@ import { PoPageModule } from '@po-ui/ng-components';
   styleUrl: './dynamic-table.component.css',
 })
 export class DynamicTableComponent implements OnChanges {
+  @ViewChild('dynamicTable', { static: true })dynamicTable: PoPageDynamicTableComponent | null = null;
 
   @Input() dynamicTableConfig: IdynamicTable = {
     title: '',
@@ -48,6 +49,10 @@ export class DynamicTableComponent implements OnChanges {
       this.serviceApi = config.serviceApi;
     }
   }
+  public reloadTable(): void {
+    if (this.dynamicTable) {
+      this.dynamicTable.updateDataTable();
+    }
+  }
 
-  @ViewChild('dynamicTable', { static: true })dynamicTable: PoPageDynamicTableComponent | null = null;
 }
