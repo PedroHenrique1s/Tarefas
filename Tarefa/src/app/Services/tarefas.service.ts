@@ -69,6 +69,7 @@ export class TarefasService {
         label: 'Status',
         gridColumns: 12,
         options: this.statusOptions,
+        disabled: false,
       },
       {
         property: 'descricao',
@@ -76,6 +77,7 @@ export class TarefasService {
         gridColumns: 12,
         rows: 5,
         placeholder: 'Digite sua descrição',
+        disabled: false,
       },
     ];
   }
