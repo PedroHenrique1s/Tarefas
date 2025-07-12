@@ -11,6 +11,7 @@ import {
   PoButtonModule,
   PoDynamicFormComponent,
   PoNotificationService,
+  PoWidgetModule,
 } from '@po-ui/ng-components';
 import { environment } from '../../../environments/environment';
 
@@ -40,7 +41,7 @@ export class TarefasComponent implements OnInit {
     tableCustomActions: [],
     fieldscolunasbrowse: [],
     quickSearchWidth: 3,
-    height: 300,
+    height: 200,
     serviceApi: null,
   };
 
@@ -137,6 +138,19 @@ export class TarefasComponent implements OnInit {
           console.error(err);
         },
       });
+    } else if (this._tarefasService.currentNOpc === 4) {
+      let id = this._tarefasService.formData.id; // Inclui o ID para atualização
+      this._tarefasService.alterarTarefa(id,payload).subscribe({
+        next: (res) => {
+          this._poNotification.success('Tarefa atualizada com sucesso!');
+          this.closeModal();
+          this.dynamicTableRef.reloadTable();
+        },
+        error: (err) => {
+          this._poNotification.error('Erro ao atualizar tarefa.');
+          console.error(err);
+        },
+      });
     }
   }
 
@@ -146,6 +160,11 @@ export class TarefasComponent implements OnInit {
 
   onVisualizar(tarefa: any): void {
     this.fields = this._tarefasService.fieldsdynamic();
+    this.fields.forEach((field) => {
+      if(field.disabled === false) {
+        field.disabled = true;
+      }
+    })
     this._tarefasService.currentNOpc = 2; // Visualizar
     this._tarefasService.formData = { ...tarefa };
     this.poModal.open();
