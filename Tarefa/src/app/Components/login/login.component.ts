@@ -27,7 +27,7 @@ export class LoginComponent {
 
   ngOnInit(): void {
     // Opcional: Se o usuário já estiver logado (token no localStorage), redireciona
-    if (this._authService.isAuthenticated()) {
+    if (this._authService.getToken()) {
       this._router.navigate(['tarefas']); // Redirecione para a rota desejada
     }
   }
