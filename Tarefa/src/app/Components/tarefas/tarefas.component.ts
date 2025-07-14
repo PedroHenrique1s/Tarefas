@@ -92,6 +92,11 @@ export class TarefasComponent implements OnInit {
 
   onIncluir(): void {
     this.fields = this._tarefasService.fieldsdynamic();
+    this.fields.forEach((field) => {
+      if (field.property === 'id') {
+        field.visible = false;
+      }
+    });
     this._tarefasService.currentNOpc = 3; // Incluir
     this._tarefasService.formData = {}; // Limpa o formulário
     this.poModal.open();

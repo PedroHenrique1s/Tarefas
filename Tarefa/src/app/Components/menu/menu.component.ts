@@ -27,10 +27,6 @@ export class MenuComponent {
       label: 'Cadastro de Tarefas',
       action: () => this.router.navigate(['/tarefas']),
     },
-    {
-      label: 'Cadastro de Usuário',
-      action: () => this.router.navigate(['/usuario']),
-    },
     { label: 'Sair', action: () => this.close() },
   ];
 
