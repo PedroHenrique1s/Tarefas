@@ -159,10 +159,6 @@ export class TarefasComponent implements OnInit {
     }
   }
 
-  restore() {
-    this.poComponet.form.reset();
-  }
-
   onVisualizar(tarefa: any): void {
     this.fields = this._tarefasService.fieldsdynamic();
     this.fields.forEach((field) => {

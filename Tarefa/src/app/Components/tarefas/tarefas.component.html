@@ -12,7 +12,6 @@
   <po-modal-footer [p-disabled-align]="false">
     <po-button   p-label="Fechar" (p-click)="closeModal()"> </po-button>
     @if (this._tarefasService.currentNOpc != 2){
-      <po-button   p-label="Limpar" (p-click)="restore()" p-danger="true"> </po-button>
       <po-button   p-label="Salvar" (p-click)="confirmTask()" p-kind="primary"> </po-button>
     }
   </po-modal-footer>
