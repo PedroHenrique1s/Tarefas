@@ -33,34 +33,6 @@ O principal objetivo é fornecer uma interface limpa e funcional, consumindo dad
 ### Listagem de Tarefas
 <img width="1365" height="321" alt="image" src="https://github.com/user-attachments/assets/b4e4cbc6-6d38-4f84-b2d4-1658dcbd1e4e" />
 
-
-## 📂 Estrutura do Projeto
-
-A estrutura de pastas do projeto foi organizada para facilitar a manutenção e a escalabilidade, seguindo as convenções da comunidade Angular:
-
-src/app/
-├── Components/
-│   ├── login/         # Componente de autenticação
-│   ├── menu/          # Componente de navegação principal
-│   └── tarefas/       # Componente para gerenciar tarefas
-│
-├── Guards/
-│   └── auth.guard.ts  # Guarda de rota para proteger páginas
-│
-├── Interceptors/
-│   └── auth.interceptor.ts # Interceptor para adicionar o token JWT nas requisições
-│
-├── Interface/
-│   ├── ienum.ts
-│   └── idynamic-table.ts # Interfaces para tipagem de dados
-│
-├── Services/
-│   ├── auth.service.ts    # Serviço de autenticação (login, logout, token)
-│   └── tarefas.service.ts # Serviço para as operações da API de tarefas
-│
-└── Shared/
-└── dynamic-table/ # Componente compartilhado de tabela dinâmica
-
 ## 🛠️ Tecnologias Utilizadas
 
 * **Angular V17**
