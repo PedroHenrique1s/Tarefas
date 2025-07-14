@@ -50,6 +50,7 @@ export class TarefasService {
         label: 'ID Tarefa',
         filter: true,
         gridColumns: 12,
+        visible: false,
       },
       {
         property: 'descricao',
@@ -64,6 +65,12 @@ export class TarefasService {
   // Campos do formulário dinâmico
   fieldsdynamic(): Array<any> {
     return [
+      {
+        property: 'id',
+        label: 'ID Tarefa',
+        gridColumns: 12,
+        disabled: true,
+      },
       {
         property: 'status',
         label: 'Status',
